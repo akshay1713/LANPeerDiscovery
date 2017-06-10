@@ -1,24 +1,25 @@
 package LANPeerDiscovery
 
 import (
-	"net"
-	"fmt"
-	"strings"
-	"strconv"
 	"encoding/binary"
+	"fmt"
+	"github.com/akshay1713/goUtils"
+	"net"
+	"strconv"
+	"strings"
 )
 
 type UDPListener struct {
-	listenerPort int
-	listenerConn *net.UDPConn
+	listenerPort       int
+	listenerConn       *net.UDPConn
 	possibleLocalAddrs []string
-	appName string
+	appName            string
 }
 
-func (udpListener UDPListener) isMessageValid(addr *net.UDPAddr, msg []byte) bool{
+func (udpListener UDPListener) isMessageValid(addr *net.UDPAddr, msg []byte) bool {
 	possibleLocalAddrs := udpListener.possibleLocalAddrs
 	appName := udpListener.appName
-	if pos(possibleLocalAddrs, addr.IP.String()+":"+strconv.Itoa(addr.Port)) != -1 {
+	if goUtils.Pos(possibleLocalAddrs, addr.IP.String()+":"+strconv.Itoa(addr.Port)) != -1 {
 		return false
 	}
 

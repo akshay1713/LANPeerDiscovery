@@ -1,18 +1,18 @@
 package LANPeerDiscovery
 
 import (
-	"net"
+	"github.com/akshay1713/goUtils"
 	"log"
+	"net"
 	"time"
 )
-
 
 type UDPBroadcaster struct {
 	ports   []string
 	appName string
 }
 
-func (udpBroadcaster UDPBroadcaster) init(manager IPeerManager) *net.UDPConn  {
+func (udpBroadcaster UDPBroadcaster) init(manager IPeerManager) *net.UDPConn {
 	var serverConn *net.UDPConn
 	for i := range udpBroadcaster.ports {
 		serverAddr, err := net.ResolveUDPAddr("udp", ":"+udpBroadcaster.ports[i])
@@ -54,7 +54,7 @@ func (udpBroadcaster UDPBroadcaster) broadcastOnSinglePort(conn *net.UDPConn, po
 	defer conn.Close()
 	var msg []byte
 	msg = append(msg, udpBroadcaster.appName...)
-	port = padLeft(port, "0", 5)
+	port = goUtils.PadLeft(port, "0", 5)
 	msg = append(msg, port...)
 	buf := []byte(msg)
 	for i := 0; i < 5; i++ {
